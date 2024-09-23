@@ -16,5 +16,6 @@ public interface CustomerDAO extends CrudDAO<Customer> {
 
     ArrayList<Customer> gettall();
 
+    Customer search(String id);
 
 }

@@ -16,5 +16,6 @@ public interface CustomerBO  extends SuperBO{
 
     ArrayList<CustomerDTO> loadallCustomer();
 
+    Customer searchCustomer(String id);
 
 }

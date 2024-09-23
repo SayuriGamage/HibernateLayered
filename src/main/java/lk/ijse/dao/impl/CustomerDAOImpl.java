@@ -68,18 +68,30 @@ public class CustomerDAOImpl implements CustomerDAO {
         return cus;
     }
 
- /*   @Override
+    @Override
     public Customer search(String id) {
 
        Session session=FactoryConfiguration.getInstance().getSession();
        Transaction transaction=session.beginTransaction();
-       NativeQuery query=session.createNativeQuery("select * from Customer where id=?1");
+      /* NativeQuery query=session.createNativeQuery("select * from Customer where id=?1");
         query.addEntity(Customer.class);
        query.setParameter(1,id);
-    Object[] objects= (Object[]) query.uniqueResult();
-    Customer customer=new Customer(objects[0].toString(),objects[])
+       Customer customer= (Customer) query.uniqueResult();
         transaction.commit();
         session.close();
-      return customer;
-    }*/
+      return customer;*/
+        ArrayList<Customer> cuslist=new ArrayList<>();
+        NativeQuery query = session.createNativeQuery("select * from Customer where id=?1");
+        query.setParameter(1,id);
+        List<Object[]> objects=query.list();
+        for(Object[] customer:objects){
+            Customer customer1=new Customer(customer[0].toString(),customer[1].toString(),customer[2].toString());
+            System.out.println(customer[0].toString()+""+customer[1].toString()+""+customer[2].toString());
+            transaction.commit();
+            session.close();
+            return customer1;
+        }
+      return null;
+
+    }
 }

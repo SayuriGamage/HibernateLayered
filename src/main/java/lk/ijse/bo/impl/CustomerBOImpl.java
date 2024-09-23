@@ -38,6 +38,10 @@ public class CustomerBOImpl  implements CustomerBO {
     }
 
 
+    public Customer searchCustomer(String id) {
+
+      return customerDAO.search(id);
+    }
 
 
 }

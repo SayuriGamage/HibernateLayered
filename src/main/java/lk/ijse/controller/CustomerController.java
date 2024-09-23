@@ -114,7 +114,20 @@ public class CustomerController {
         coladdress.setCellValueFactory(new PropertyValueFactory<>("address"));
     }
 
+    public void searchOnAction(ActionEvent actionEvent) {
+        String id=idtext.getText();
 
+     Customer customer=customerBO.searchCustomer(id);
+
+      if (customer!=null){
+          idtext.setText(customer.getId());
+          nametext.setText(customer.getName());
+          addresstext.setText(customer.getAddress());
+      } else {
+          System.out.println("customer not found");
+      }
+
+    }
 }
 
 
