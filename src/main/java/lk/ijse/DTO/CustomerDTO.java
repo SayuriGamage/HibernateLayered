@@ -1,7 +1,11 @@
-package lk.ijse.entity;
+package lk.ijse.DTO;
 
-public class Customer {
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
+@Entity
+public class CustomerDTO {
+@Id
     private String id;
     private String name;
     private String address;
@@ -30,12 +34,12 @@ public class Customer {
         this.address = address;
     }
 
-    public Customer(String id, String name, String address) {
+    public CustomerDTO(String id, String name, String address) {
         this.id = id;
         this.name = name;
         this.address = address;
     }
 
-    public Customer() {
+    public CustomerDTO() {
     }
 }

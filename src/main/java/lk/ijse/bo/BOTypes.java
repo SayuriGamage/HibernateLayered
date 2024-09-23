@@ -1,2 +1,5 @@
-package lk.ijse.bo;public enum BOTypes {
+package lk.ijse.bo;
+
+public enum BOTypes {
+    Customerbo
 }

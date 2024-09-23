@@ -1,2 +1,5 @@
-package lk.ijse.dao.impl;public enum DAOTypes {
+package lk.ijse.dao.impl;
+
+public enum DAOTypes {
+    Customer
 }
