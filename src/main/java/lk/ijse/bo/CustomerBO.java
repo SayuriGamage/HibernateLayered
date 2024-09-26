@@ -4,6 +4,7 @@ import lk.ijse.DTO.CustomerDTO;
 import lk.ijse.entity.Customer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface CustomerBO  extends SuperBO{
 
@@ -18,4 +19,13 @@ public interface CustomerBO  extends SuperBO{
 
     Customer searchCustomer(String id);
 
+    String CurrentCustomerid();
+
+    List<String> getcids();
+
+    String getname(String id);
+
+    ArrayList<CustomerDTO> getAll();
+
+    CustomerDTO searchbyid(String id);
 }

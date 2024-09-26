@@ -6,6 +6,7 @@ import lk.ijse.entity.Customer;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,47 +52,67 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public ArrayList<Customer> gettall() {
+        return null;
 
-        Session session = FactoryConfiguration.getInstance().getSession();
-        Transaction transaction = session.beginTransaction();
-
-        ArrayList<Customer> cus = new ArrayList<>();
-        NativeQuery query = session.createNativeQuery("select * from Customer");
-        List<Object[]> objects = query.list();
-        for (Object[] object : objects) {
-            Customer customer = new Customer(object[0].toString(), object[1].toString(), object[2].toString());
-
-            cus.add(customer);
-        }
-       transaction.commit();
-        session.close();
-        return cus;
     }
 
     @Override
     public Customer search(String id) {
-
-       Session session=FactoryConfiguration.getInstance().getSession();
-       Transaction transaction=session.beginTransaction();
-      /* NativeQuery query=session.createNativeQuery("select * from Customer where id=?1");
-        query.addEntity(Customer.class);
-       query.setParameter(1,id);
-       Customer customer= (Customer) query.uniqueResult();
-        transaction.commit();
-        session.close();
-      return customer;*/
-        ArrayList<Customer> cuslist=new ArrayList<>();
-        NativeQuery query = session.createNativeQuery("select * from Customer where id=?1");
-        query.setParameter(1,id);
-        List<Object[]> objects=query.list();
-        for(Object[] customer:objects){
-            Customer customer1=new Customer(customer[0].toString(),customer[1].toString(),customer[2].toString());
-            System.out.println(customer[0].toString()+""+customer[1].toString()+""+customer[2].toString());
-            transaction.commit();
-            session.close();
-            return customer1;
-        }
       return null;
 
+    }
+
+    @Override
+    public String currentid() {
+        Session session=FactoryConfiguration.getInstance().getSession();
+        Transaction transaction=session.beginTransaction();
+      NativeQuery query=session.createNativeQuery("SELECT emp_id FROM employee ORDER BY emp_id DESC LIMIT 1");
+    /*  Object result=query.uniqueResult();
+     String ids=result.toString();*/
+        String ids = (String) query.getSingleResult();
+     transaction.commit();
+     session.close();
+     return ids;
+    }
+
+    @Override
+    public List<String> getid() {
+        Session session=FactoryConfiguration.getInstance().getSession();
+        Query<String> query=session.createNativeQuery("select id from Customer",String.class);
+        List<String> clist=query.list();
+        session.close();
+        return clist;
+    }
+
+    @Override
+    public String getname(String id) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Query<String> query = session.createQuery("select name from Customer where id =:id ").setParameter("id",id);
+        String name = query.getSingleResult();
+        session.close();
+
+        return name;
+    }
+
+    @Override
+    public List<Customer> getAll() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Query<Customer> query = session.createQuery("from Customer ");
+        List<Customer> clist = query.list();
+
+        return clist;
+    }
+
+    @Override
+    public Customer searchcus(String id) {
+        Session session= FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        Customer customerEntity = session.get(Customer.class, id);
+
+        transaction.commit();
+        session.close();
+        System.out.println(customerEntity.getId());
+
+        return customerEntity;
     }
 }

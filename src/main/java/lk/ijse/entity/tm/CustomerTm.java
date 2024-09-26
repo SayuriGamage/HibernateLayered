@@ -1,5 +1,6 @@
 package lk.ijse.entity.tm;
 
+import javafx.collections.ObservableArray;
 import lombok.*;
 
 @NoArgsConstructor

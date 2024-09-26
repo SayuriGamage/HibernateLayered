@@ -13,4 +13,6 @@ public interface CrudDAO<T> extends SuperDAO{
     boolean delete(String id);
 
      ArrayList<T> gettall();
+
+    String currentid();
 }

@@ -1,7 +1,6 @@
 package lk.ijse.controller;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
@@ -16,14 +15,13 @@ import lk.ijse.bo.CustomerBO;
 import lk.ijse.entity.Customer;
 import lk.ijse.entity.tm.CustomerTm;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CustomerController {
     public TextField idtext;
     public TextField nametext;
     public TextField addresstext;
-    public TableView<CustomerTm> tblcustomer;
+    public TableView<CustomerDTO> tblcustomer;
     public TableColumn<CustomerTm, String> colid;
     public TableColumn<CustomerTm, String> colname;
     public TableColumn<CustomerTm, String> coladdress;
@@ -37,7 +35,24 @@ public class CustomerController {
     public void initialize(){
         setCellValueFactory();
         loadallCustomer();
+
+     /*   String cusid=customerBO.CurrentCustomerid();
+        String customerid=generateNextId(cusid);
+         idtext.setText(customerid);*/
     }
+
+    private String generateNextId(String cusid) {
+
+            int currentId = Integer.parseInt(cusid); // Convert the String to an integer
+
+            if (currentId >= 1 && currentId < 9) {
+                return String.valueOf(currentId + 1); // Increment and convert back to String
+            } else {
+                return "1"; // Reset to "1" when currentId reaches 9
+            }
+    }
+
+
     public void saveOnAction(ActionEvent actionEvent) {
         String id = idtext.getText();
         String name = nametext.getText();
@@ -93,39 +108,40 @@ public class CustomerController {
     }
 
     public void loadallCustomer(){
-        ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
+      /*  ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
 
         ArrayList<CustomerDTO> customers=customerBO.loadallCustomer();
-        System.out.println("Customers loaded: " + customers);
         for(CustomerDTO customer:customers){
 
         CustomerTm customerTm=new CustomerTm(customer.getId(),customer.getName(),customer.getAddress());
         obList.add(customerTm);
         }
-        tblcustomer.setItems(obList);
-
-
+        tblcustomer.setItems(obList);*/
+        ObservableList<CustomerDTO> customerlist= FXCollections.observableArrayList();
+        ArrayList<CustomerDTO> clist = customerBO.getAll();
+        for (CustomerDTO c: clist
+        ) {
+            customerlist.add(c);
+        }
+        System.out.println("sdf");
+        System.out.println(customerlist);
+        tblcustomer.setItems(customerlist);
     }
 
 
     private void setCellValueFactory() {
         colid.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colname.setCellValueFactory(new PropertyValueFactory<>("name"));
-        coladdress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        coladdress.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colname.setCellValueFactory(new PropertyValueFactory<>("address"));
     }
 
     public void searchOnAction(ActionEvent actionEvent) {
-        String id=idtext.getText();
+        String id = idtext.getText();
+        CustomerDTO customerDTO = customerBO.searchbyid(id);
+        idtext.setText(customerDTO.getId());
+        addresstext.setText(customerDTO.getName());
+        nametext.setText(customerDTO.getAddress());
 
-     Customer customer=customerBO.searchCustomer(id);
-
-      if (customer!=null){
-          idtext.setText(customer.getId());
-          nametext.setText(customer.getName());
-          addresstext.setText(customer.getAddress());
-      } else {
-          System.out.println("customer not found");
-      }
 
     }
 }

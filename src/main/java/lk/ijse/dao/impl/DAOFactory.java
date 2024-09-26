@@ -21,6 +21,9 @@ public class DAOFactory {
         switch (daoTypes) {
             case Customer:
                 return new CustomerDAOImpl();
+
+            case Item:
+                return new ItemDAOImpl();
         }
         return null;
     }

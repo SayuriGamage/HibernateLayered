@@ -8,6 +8,7 @@ import lk.ijse.dao.impl.DAOTypes;
 import lk.ijse.entity.Customer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerBOImpl  implements CustomerBO {
     CustomerDAO customerDAO= (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOTypes.Customer);
@@ -41,6 +42,43 @@ public class CustomerBOImpl  implements CustomerBO {
     public Customer searchCustomer(String id) {
 
       return customerDAO.search(id);
+    }
+
+    @Override
+    public String CurrentCustomerid() {
+        return customerDAO.currentid();
+    }
+
+    @Override
+    public List<String> getcids() {
+        List<String> list=customerDAO.getid();
+        return list;
+    }
+
+    @Override
+    public String getname(String id) {
+        String namen = customerDAO.getname(id);
+        return namen;
+    }
+
+    @Override
+    public ArrayList<CustomerDTO> getAll() {
+        ArrayList<CustomerDTO> cList= new ArrayList<>();
+        List<Customer> en = customerDAO.getAll();
+
+        for (Customer e: en
+        ) {
+            cList.add(new CustomerDTO(e.getId(),e.getName(),e.getAddress()));
+
+        }
+
+        return cList;
+    }
+
+    @Override
+    public CustomerDTO searchbyid(String id) {
+        Customer e = customerDAO.searchcus(id);
+        return new CustomerDTO(e.getId(),e.getName(),e.getAddress());
     }
 
 
